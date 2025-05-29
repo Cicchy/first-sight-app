@@ -1,0 +1,38 @@
+<body>
+    <div style="display: flex; align-items: center; justify-content: center; height: 40px; padding: 2rem;">
+        <a class="navbar-brand" href="/" id="userDropdown">First Sight</a>
+        <form role="search" method="get" style="width: 100%; display: flex; align-items: center; justify-content: center;">
+            <input class="form-control search" type="search" placeholder="Search..." name="q" colo>
+        </form>
+        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/static/profile.png" alt="Profile" class="profile-picture">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="item" href="/profile">Mi Perfil</a></li>
+            <li><a class="item" href="/profile#bookmarks">Bookmarks</a></li>
+            <li><a class="item" href="/profile#settings">Settings</a></li>
+            <div class="divider" style="margin-top: 1rem;"></div>
+            <li><a class="item" href="/logout" style="color: #c90133;  margin-top: 0.5rem;">Logout</a></li>
+            
+        </ul>
+    </div>
+    <div class="divider">
+</body>
+
+<style>
+    .navbar-brand {
+        color: #fff !important;
+        font-weight: bold;
+    }
+    .profile-picture {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid #121212;
+        margin-left: 1rem;
+
+    }
+    .logout-item {
+        color: #db2443;
+    }
+</style>

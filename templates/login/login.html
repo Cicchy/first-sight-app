@@ -1,0 +1,32 @@
+{% extends "_base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center justify-content-center vh-100">
+    <div class="card">
+        <h5 class="text-center my-4">Sign In</h5>
+        <a href="{% url 'social:begin' 'discord' %}"
+            class="btn btn-discord w-100 d-flex align-items-center justify-content-center gap-2">
+            <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d7f4ef6498ac018f2c55_Symbol.svg"
+                alt="Discord" style="width: 1.5em; height: 1.5em; margin-right: 0.5em; padding: 0.15em;">
+            <span>Login with Discord</span>
+        </a>
+        <p class="muted">
+            By clicking, you agree to our <a href="/terms" style="color: #5865F2; text-decoration: none;">Terms</a> & <a
+                href="/privacy" style="color: #5865F2; text-decoration: none;">Privacy Policy</a>.
+        </p>
+    </div>
+</div>
+<style>
+    .btn-discord {
+        background-color: #5865F2 !important;
+        color: #fff !important;
+    }
+
+    .btn-discord:hover {
+        background-color: #4752C4 !important;
+        color: #fff !important;
+    }
+</style>
+{% endblock %}

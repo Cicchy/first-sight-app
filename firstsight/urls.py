@@ -1,5 +1,5 @@
 """
-URL configuration for first_sight project.
+URL configuration for firstsight project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -17,8 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from . import views
 
-urlpatterns = [
+urlpatterns = [	
     path('admin/', admin.site.urls),
-    path('auth/', include('login.urls')),
+    path('', include('login.urls')),
+    path('', views.home, name='home'),
+    path('oauth2/', include('social_django.urls', namespace='social')),
 ]

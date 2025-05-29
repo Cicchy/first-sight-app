@@ -1,0 +1,72 @@
+{% extends "_base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    {% include "_nav.html" %}
+    <div class="container center" style="width: 70%;">
+        <div class="container" style="padding: 1rem; display: flex; align-items: center;">
+            <img src="{{ user.profile.picture.url }}" class="profile-picture"
+                style="width: 128px; height: 128px; margin-right: 2rem;">
+            <div>
+                <h1 style="margin: 0;">{{ user.username }}</h1>
+                <p class="text" style="color: #6d696a !important;">{{ user.email }}</p>
+            </div>
+        </div>
+        <div class="divider" style="margin-bottom: 2rem;"></div>
+        <div class="container card-container" style="display: flex; width: 100%;background: #0a0a0a;"; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); overflow: hidden;">
+            <nav style="flex: 1; background: #0a0a0a; min-width: 180px; padding: 1rem; border-right: 1px solid #121212;">
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li>
+                        <a class="item" href="#bookmarks">
+                            <span style="margin-right: 8px;"></span> Bookmarks
+                        </a>
+                    </li>
+                    <li>
+                        <a class="item" href="#settings">
+                            <span style="margin-right: 8px;"></span> Settings
+                        </a>
+                    </li>
+                    <div class="divider" style="margin-top: 1rem;"></div>
+                    <li>
+                        <a class="item" href="/logout" style=" color: #c90133; margin-top: 1rem;">
+                            <span style="margin-right: 8px;"></span> Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div style="flex: 5; background: #0a0a0a; padding: 2rem;">
+                <div id="subpage-bookmarks" style="display: none;">
+                    <h2 style="color: #fff;">Bookmarks</h2>
+                    <div class="divider"></div>
+                    <p style="color: #aaa;">Your saved bookmarks will appear here.</p>
+                </div>
+                <div id="subpage-settings" style="display: none;">
+                    <h2 style="color: #fff;">Settings</h2>
+                    <div class="divider">
+                </div>
+                <div id="subpage-default" style="color: #aaa; text-align: center; margin-top: 2rem;">
+                    <p>Select an option from the menu.</p>
+                </div>
+            </div>
+            <script>
+                function showSubpage() {
+                    const hash = window.location.hash || '';
+                    document.getElementById('subpage-bookmarks').style.display = 'none';
+                    document.getElementById('subpage-settings').style.display = 'none';
+                    document.getElementById('subpage-default').style.display = 'none';
+                    if (hash === '#bookmarks') {
+                        document.getElementById('subpage-bookmarks').style.display = 'block';
+                    } else if (hash === '#settings') {
+                        document.getElementById('subpage-settings').style.display = 'block';
+                    } else {
+                        document.getElementById('subpage-default').style.display = 'block';
+                    }
+                }
+                window.addEventListener('hashchange', showSubpage);
+                window.addEventListener('DOMContentLoaded', showSubpage);
+            </script>
+        </div>
+        </div>
+    </div>
+{% endblock %}

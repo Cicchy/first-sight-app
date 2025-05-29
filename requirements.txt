@@ -1,0 +1,4 @@
+django
+django-social-app
+tbapy
+statbotics==3.0.0
