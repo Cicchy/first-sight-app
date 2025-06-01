@@ -38,6 +38,7 @@
         }
 
         .btn-secondary {
+            font-weight: 600;
             background-color: #fceeff !important;
             color: #0a0a0a !important;
         }
@@ -68,55 +69,49 @@
             background-color: #121212;
         }
 
-        .search {
+        .text-input {
             width: 100%;
             max-width: 600px;
             height: 40px;
             background-color: #0a0a0a;
             border: 1px solid #121212;
             color: #fff !important;
-            border-radius: 8px;
+            border-radius: 16px;
             padding: 0.7rem;
             display: flex;
             align-items: center;
         }
 
-        .search:focus {
-            width: 100%;
-            max-width: 600px;
-            height: 40px;
-            background-color: #0a0a0a;
-            border: 1px solid #121212;
+        .text-input:focus {
             color: #fff !important;
-            border-radius: 8px;
-            padding: 0.7rem;
-            display: flex;
-            align-items: center;
+            background-color: #0a0a0a;
         }
 
-        .dropdown-toggle::after {
+        .text-input .dropdown-toggle::after {
             display: none;
         }
 
         .dropdown-menu {
             background-color: #0a0a0a;
             border: 1px solid #121212;
-            box-shadow: #000000 4px;
-            border-radius: 8px;
+            border-radius: 16px;
         }
+
         .item {
-            color: #fff;
-            text-decoration: none; display: block; padding: 0.5rem 1rem; border-radius: 8px; transition: background 0.2s;
+            color: #6d696a;
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background 0.2s;
         }
 
         .item:hover {
             background-color: #121212;
-            color: #fff!important;
+            color: #fff !important;
         }
 
         .muted {
-            margin-top: 1rem;
-            font-size: 0.75rem;
             color: #6d696a !important;
         }
     </style>

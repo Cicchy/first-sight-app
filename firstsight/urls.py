@@ -18,10 +18,13 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from . import views
+from django.shortcuts import redirect
+from django.views.generic.base import RedirectView
 
 urlpatterns = [	
     path('admin/', admin.site.urls),
+    path('', RedirectView.as_view(url='/events/', permanent=False), name='home'),
+    path('', include('events.urls')),
     path('', include('login.urls')),
-    path('', views.home, name='home'),
     path('oauth2/', include('social_django.urls', namespace='social')),
 ]

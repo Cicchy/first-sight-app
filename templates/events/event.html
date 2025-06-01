@@ -1,0 +1,242 @@
+{% extends "_base.html" %}
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+{% include "_nav.html" %}
+
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+
+<div class="container center" style="padding-top: 4rem;">
+    <h1>{{ event.name }}</h1>
+    <p class="muted">
+        {{ event.country }}{% if event.state %}, {{ event.state }}{% endif %}{% if event.district %}, {{ event.district }}{% endif %}
+    </p>
+    <div class="divider" style="margin-bottom: 1rem;"></div>
+
+    <div>
+        <div class="events-panel" style="display: flex; height: 80vh;">
+            <nav class="card-container" id="sidebar-nav" style="min-width: 200px; padding: 0.5rem; height: fit-content;">
+                <a class="item sidebar-item" href="#overview">Overview</a>
+                <a class="item sidebar-item" href="#teams">Teams</a>
+                <a class="item sidebar-item" href="#matches">Matches</a>
+            </nav>
+            <div id="scroll-container" style="flex: 1; padding: 1rem; overflow-y: auto; scroll-behavior: smooth;">
+                <section id="overview" class="week-section" style="margin-bottom: 3rem; min-height: 1200px;">
+                    <h3>Overview</h3>
+                    <div class="divider" style="margin-bottom: 0.5rem;"></div>
+                    <div class="card-container" style="min-height: 200px; padding: 1rem;">
+                        <h4>Progress</h4>
+                    </div>
+                </section>
+                <section id="teams" class="week-section" style="margin-bottom: 3rem; min-height: 1200px;">
+                    <h3>Teams</h3>
+                    <div class="divider" style="margin-bottom: 0.5rem;"></div>
+                </section>
+                <section id="matches" class="week-section" style="margin-bottom: 3rem;">
+                    <h3>Matches</h3>
+                    <div class="divider" style="margin-bottom: 0.5rem;"></div>
+                    {% if matches %}
+                    <div class="card-container" style="padding:0.5rem;">
+                        <table class="match-table">
+                            <thead>
+                                <tr>
+                                    <th class="muted">Match</th>
+                                    <th class="muted">Red Alliance</th>
+                                    <th class="muted">Blue Alliance</th>
+                                    <th class="muted">Score</th>
+                                    <th class="muted">Winner</th>
+                                    <th class="muted">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for match in matches %}
+                                <tr>
+                                    <td>
+                                        <i class="fi fi-rr-link-alt muted" style="font-size: 1rem;"></i>
+                                        <a class="match-link" href="/match/{{ match.key }}">{{ match.match_name }}</a>
+                                    </td>
+                                    <td>
+                                        {% for team_number in match.alliances.red.team_keys %}
+                                        <span class="team-badge red">{{ team_number }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        {% for team_number in match.alliances.blue.team_keys %}
+                                        <span class="team-badge blue">{{ team_number }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <span class="score red">{{ match.result.red_score }}</span>
+                                        -
+                                        <span class="score blue">{{ match.result.blue_score }}</span>
+                                    </td>
+                                    <td>
+                                        {% if match.result.winner == "red" %}
+                                            <span class="winner red" style="font-weight: bold;">{{ match.result.winner|capfirst }}</span>
+                                        {% else %}
+                                            <span class="winner blue" style="font-weight: bold;">{{ match.result.winner|capfirst }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if match.status == "Completed" %}
+                                        <span class="status completed">{{ match.status }}</span>
+                                        {% elif match.status == "In progress" %}
+                                        <span class="status in-progress">{{ match.status }}</span>
+                                        {% elif match.status == "Not Started" %}
+                                        <span class="status not-started">{{ match.status }}</span>
+                                        {% else %}
+                                        <span class="status other">{{ match.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6">No matches found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .sidebar-item.active {
+        background-color: #121212;
+        color: #fff !important;
+    }
+    .match-link {
+        color: #fff;
+        text-decoration: none;
+        gap: 0.5rem;
+    }
+    .match-link:hover {
+        text-decoration: underline;
+    }
+    .match-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .match-table th,
+    .match-table td {
+        padding: 0.75rem 1.5rem;
+        border-bottom: 1px solid #121212;
+        color: #e0e0e0;
+        background: transparent;
+        font-size: 1rem;
+    }
+    .match-table th {
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        border-bottom: 1px solid #121212;
+    }
+    .match-table tr:last-child td {
+        border-bottom: none;
+    }
+    .match-table td[colspan] {
+        text-align: center;
+        color: #aaa;
+        font-style: italic;
+        background: #181818;
+    }
+    .team-badge {
+        display: inline-block;
+        background: #121212;
+        border-radius: 16px;
+        padding: 0.1em 0.6em;
+        font-weight: 600;
+        font-size: 0.85em;
+    }
+    .team-badge.red { color: #f01d64; }
+    .team-badge.blue { color: #5436fd; }
+    .score.red { color: #f01d64; font-weight: 600; }
+    .score.blue { color: #5436fd; font-weight: 600; }
+    .winner.red { color: #f01d64; }
+    .winner.blue { color: #5436fd; }
+    .status {
+        display: inline-block;
+        border-radius: 16px;
+        padding: 0.1em 0.6em;
+        font-weight: 600;
+        font-size: 0.85em;
+    }
+    .status.completed {
+        background: #fff;
+        color: #0a0a0a !important;
+    }
+    .status.in-progress {
+        background: #121212;
+        color: #0a0a0a !important;
+    }
+    .status.not-started {
+        background: #757575;
+        color: #0a0a0a !important;
+    }
+    .status.other {
+        background: #222;
+        color: #fff !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        const scrollContainer = document.getElementById('scroll-container');
+        const weekSections = document.querySelectorAll('.week-section');
+
+        // Función para eliminar la clase 'active' de todos los elementos de la barra lateral
+        function removeActiveClass() {
+            sidebarItems.forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+
+        // 1. Resaltar al hacer clic en la barra lateral
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', function() {
+                removeActiveClass();
+                this.classList.add('active');
+            });
+        });
+
+        // 2. Resaltar al desplazarse
+        const observerOptions = {
+            root: scrollContainer, // El contenedor que estamos observando para el desplazamiento
+            rootMargin: '0px',
+            threshold: 0.065 // El porcentaje del elemento que debe estar visible para activar el callback
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id; // week-X
+                    const correspondingSidebarItem = document.querySelector(`.sidebar-item[href="#${id}"]`);
+
+                    if (correspondingSidebarItem) {
+                        removeActiveClass();
+                        correspondingSidebarItem.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observar cada sección de la semana
+        weekSections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Opcional: Resaltar la primera semana al cargar la página
+        if (sidebarItems.length > 0) {
+            sidebarItems[0].classList.add('active');
+        }
+    });
+</script>
+{% endblock %}

@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+# Load environment variables from .env file 
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',  # Social authentication app
     'login',  # Login app for user authentication
+    'events',  # Events app for managing events
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -46,8 +51,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_DISCORD_KEY = '1372542620475330590'
-SOCIAL_AUTH_DISCORD_SECRET = '_AqvdXJhQ_-Rn5eCIcoY5P2rT59EZaUp'
+SOCIAL_AUTH_DISCORD_KEY = os.getenv('SOCIAL_AUTH_DISCORD_kEY')
+SOCIAL_AUTH_DISCORD_SECRET = os.getenv('SOCIAL_AUTH_DISCORD_SECRET')
 SOCIAL_AUTH_DISCORD_SCOPE = ['identify', 'email']
 SOCIAL_AUTH_DISCORD_EXTRA_DATA = [
     'id',

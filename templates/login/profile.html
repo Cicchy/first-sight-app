@@ -3,70 +3,115 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-    {% include "_nav.html" %}
-    <div class="container center" style="width: 70%;">
-        <div class="container" style="padding: 1rem; display: flex; align-items: center;">
-            <img src="{{ user.profile.picture.url }}" class="profile-picture"
-                style="width: 128px; height: 128px; margin-right: 2rem;">
-            <div>
-                <h1 style="margin: 0;">{{ user.username }}</h1>
-                <p class="text" style="color: #6d696a !important;">{{ user.email }}</p>
-            </div>
-        </div>
-        <div class="divider" style="margin-bottom: 2rem;"></div>
-        <div class="container card-container" style="display: flex; width: 100%;background: #0a0a0a;"; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); overflow: hidden;">
-            <nav style="flex: 1; background: #0a0a0a; min-width: 180px; padding: 1rem; border-right: 1px solid #121212;">
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                    <li>
-                        <a class="item" href="#bookmarks">
-                            <span style="margin-right: 8px;"></span> Bookmarks
-                        </a>
-                    </li>
-                    <li>
-                        <a class="item" href="#settings">
-                            <span style="margin-right: 8px;"></span> Settings
-                        </a>
-                    </li>
-                    <div class="divider" style="margin-top: 1rem;"></div>
-                    <li>
-                        <a class="item" href="/logout" style=" color: #c90133; margin-top: 1rem;">
-                            <span style="margin-right: 8px;"></span> Logout
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div style="flex: 5; background: #0a0a0a; padding: 2rem;">
-                <div id="subpage-bookmarks" style="display: none;">
-                    <h2 style="color: #fff;">Bookmarks</h2>
-                    <div class="divider"></div>
-                    <p style="color: #aaa;">Your saved bookmarks will appear here.</p>
-                </div>
-                <div id="subpage-settings" style="display: none;">
-                    <h2 style="color: #fff;">Settings</h2>
-                    <div class="divider">
-                </div>
-                <div id="subpage-default" style="color: #aaa; text-align: center; margin-top: 2rem;">
-                    <p>Select an option from the menu.</p>
-                </div>
-            </div>
-            <script>
-                function showSubpage() {
-                    const hash = window.location.hash || '';
-                    document.getElementById('subpage-bookmarks').style.display = 'none';
-                    document.getElementById('subpage-settings').style.display = 'none';
-                    document.getElementById('subpage-default').style.display = 'none';
-                    if (hash === '#bookmarks') {
-                        document.getElementById('subpage-bookmarks').style.display = 'block';
-                    } else if (hash === '#settings') {
-                        document.getElementById('subpage-settings').style.display = 'block';
-                    } else {
-                        document.getElementById('subpage-default').style.display = 'block';
-                    }
-                }
-                window.addEventListener('hashchange', showSubpage);
-                window.addEventListener('DOMContentLoaded', showSubpage);
-            </script>
-        </div>
+{% include "_nav.html" %}
+
+<div class="container" style="max-width: 960px; margin: auto; padding: 2rem 1rem;">
+    <div class="profile-header" style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <img class="profile-picture" src="{{ user.profile.picture.url }}" alt="Profile Picture"
+            style="width: 128px; height: 128px; border-radius: 50%; object-fit: cover; margin-right: 1.5rem;">
+        <div>
+            <h1 style="margin: 0;">{{ user.username }}</h1>
+            <p style="color: #6d696a;">{{ user.email }}</p>
         </div>
     </div>
+
+    <div class="divider" style="margin-bottom: 1rem;"></div>
+    
+    <div class="account-panel" style="
+        display: flex;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #121212;
+    ">
+        <nav style="min-width: 200px; background: #0a0a0a; border-right: 1px solid #121212; padding: 1.5rem;">
+            <p class="muted">My Account</p>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 0.75rem;">
+                    <a class="item" href="#bookmarks" style="color: #fff; text-decoration: none;">Bookmarks</a>
+                </li>
+                <li style="margin-bottom: 0.75rem;">
+                    <a class="item" href="#settings" style="color: #fff; text-decoration: none;">Settings</a>
+                </li>
+                <li style="margin-top: 1rem;">
+                    <a class="item" href="/logout" style="color: #c90133; text-decoration: none;">Logout</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div style="flex: 1; padding: 2rem;">
+            <div id="subpage-bookmarks" style="display: none;">
+                <h4 style="color: #fff;">Bookmarks</h4>
+                <div class="divider" style="border-bottom: 1px solid #333; margin: 1rem 0;"></div>
+                <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+                    <!-- Example bookmark item -->
+                    <div style="display: flex; align-items: center; background: #0a0a0a; border-radius: 8px; padding: 1rem; border: 1px solid #232323;">
+                        <img src="https://via.placeholder.com/48" alt="Bookmark Thumbnail" style="width: 48px; height: 48px; border-radius: 6px; object-fit: cover; margin-right: 1rem;">
+                        <div style="flex: 1;">
+                            <a href="#" style="color: #fff; font-weight: bold; font-size: 1.1rem; text-decoration: none;">Example Article Title</a>
+                            <div style="color: #aaa; font-size: 0.95rem; margin-top: 0.25rem;">Short description of the bookmarked item goes here.</div>
+                        </div>
+                        <a class="item" href="#" style="color: #c90133; text-decoration: none; margin-left: 1.5rem; font-size: 0.95rem;">Remove</a>
+                    </div>
+                    <div style="display: flex; align-items: center; background: #0a0a0a; border-radius: 8px; padding: 1rem; border: 1px solid #232323;">
+                        <img src="https://via.placeholder.com/48" alt="Bookmark Thumbnail" style="width: 48px; height: 48px; border-radius: 6px; object-fit: cover; margin-right: 1rem;">
+                        <div style="flex: 1;">
+                            <a href="#" style="color: #fff; font-weight: bold; font-size: 1.1rem; text-decoration: none;">Another Saved Item</a>
+                            <div style="color: #aaa; font-size: 0.95rem; margin-top: 0.25rem;">A brief note about this bookmark.</div>
+                        </div>
+                        <a class="item" href="#" style="color: #c90133; text-decoration: none; margin-left: 1.5rem; font-size: 0.95rem;">Remove</a>
+                    </div>
+                    <!-- End example items -->
+                </div>
+                <div style="color: #666; text-align: center; margin-top: 2rem; font-size: 0.98rem;">
+                    You have 2 bookmarks.
+                </div>
+            </div>
+
+            <div id="subpage-settings" style="display: none;">
+                <h4 style="color: #fff;">Settings</h4>
+                <div class="divider" style="border-bottom: 1px solid #333; margin: 1rem 0;"></div>
+                <form method="post" action="/profile/settings/" style="max-width: 400px;">
+                    {% csrf_token %}
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="email" style="display: block; color: #bbb; margin-bottom: 0.5rem;">Email</label>
+                        <input type="email" id="email" name="email" value="{{ user.email }}" class="text-input">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="username" style="display: block; color: #bbb; margin-bottom: 0.5rem;">Username</label>
+                        <input type="text" id="username" name="username" value="{{ user.username }}" class="text-input">
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <label for="password" style="display: block; color: #bbb; margin-bottom: 0.5rem;">New Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" class="text-input">
+                    </div>
+                    <button type="submit" style="background: #c90133; color: #fff; border: none; border-radius: 6px; padding: 0.75rem 1.5rem; font-weight: bold; cursor: pointer;">
+                        Save Changes
+                    </button>
+                </form>
+            </div>
+
+            <div id="subpage-default" style="text-align: center; color: #777; margin-top: 2rem;">
+                <p>Select an option from the menu.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showSubpage() {
+        const pages = ['bookmarks', 'settings'];
+        pages.forEach(p => document.getElementById(`subpage-${p}`).style.display = 'none');
+        document.getElementById('subpage-default').style.display = 'none';
+
+        const hash = window.location.hash.slice(1);
+        if (pages.includes(hash)) {
+            document.getElementById(`subpage-${hash}`).style.display = 'block';
+        } else {
+            document.getElementById('subpage-default').style.display = 'block';
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', showSubpage);
+    window.addEventListener('hashchange', showSubpage);
+</script>
 {% endblock %}

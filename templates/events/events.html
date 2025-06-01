@@ -1,0 +1,130 @@
+{% extends "_base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% include "_nav.html" %}
+<head>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'></head>
+<div class="container center" style="padding-top: 4rem;">
+    <h1>Events</h1>
+    <div class="divider" style="margin-bottom: 1rem;"></div>
+
+    <div>
+        {% if events %}
+        <div class="events-panel" style="display: flex; height: 80vh;">
+            <nav class="card-container" id="sidebar-nav" style="min-width: 200px; padding: 0.5rem; height: fit-content;">
+                {% for week, week_events in events.items %}
+                    {% if week == 8 %}
+                        <a class="item sidebar-item" href="#week-{{ week }}">FIRST Championship</a>
+                    {% else %}
+                        <a class="item sidebar-item" href="#week-{{ week }}">Week {{ week }}</a>
+                    {% endif %}
+                {% endfor %}
+            </nav>
+            <div id="scroll-container" style="flex: 1; padding: 1rem; overflow-y: auto; scroll-behavior: smooth;">
+                {% if events %}
+                {% for week, week_events in events.items %}
+                <section id="week-{{ week }}" class="week-section" style="margin-bottom: 3rem;">
+                    {% if week == 8 %}
+                        <h3>FIRST Championship</h3>
+                    {% else %}
+                        <h3>Week {{ week }}</h3>
+                    {% endif %}
+                    <div class="divider" style="margin-bottom: 0.5rem;"></div>
+                    <div class="events-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        {% for event in week_events %}
+                        <div class="card-container" style="padding: 1rem;">
+                                <h4 style="color: #fff; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fi fi-rr-link-alt muted" style="font-size: 1rem;"></i>
+                                    <a class="link event-link" href="/event/{{event.key}}" style="color: #fff; display: flex; align-items: center; gap: 0.5rem;">
+                                        {{ event.name }}
+                                    </a>
+                                </h4>
+                            <style>
+                                .event-link {
+                                    text-decoration: none;
+                                }
+                                .event-link:hover {
+                                    text-decoration: underline;
+                                }
+                            </style>
+                            <p class="muted">{{event.country}}{% if event.state %}, {{event.state}}{% endif %}{% if event.district %}, {{event.district}}{% endif %}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endfor %}
+                {% else %}
+                <p>No events available.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <p>No events available.</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    /* Estilo para resaltar el elemento seleccionado */
+    .sidebar-item.active {
+            background-color: #121212;
+            color: #fff !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        const scrollContainer = document.getElementById('scroll-container');
+        const weekSections = document.querySelectorAll('.week-section');
+
+        // Función para eliminar la clase 'active' de todos los elementos de la barra lateral
+        function removeActiveClass() {
+            sidebarItems.forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+
+        // 1. Resaltar al hacer clic en la barra lateral
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', function() {
+                removeActiveClass();
+                this.classList.add('active');
+            });
+        });
+
+        // 2. Resaltar al desplazarse
+        const observerOptions = {
+            root: scrollContainer, // El contenedor que estamos observando para el desplazamiento
+            rootMargin: '0px',
+            threshold: 0.1 // El porcentaje del elemento que debe estar visible para activar el callback
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id; // week-X
+                    const correspondingSidebarItem = document.querySelector(`.sidebar-item[href="#${id}"]`);
+
+                    if (correspondingSidebarItem) {
+                        removeActiveClass();
+                        correspondingSidebarItem.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observar cada sección de la semana
+        weekSections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Opcional: Resaltar la primera semana al cargar la página
+        if (sidebarItems.length > 0) {
+            sidebarItems[0].classList.add('active');
+        }
+    });
+</script>
+
+{% endblock %}
